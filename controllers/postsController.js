@@ -30,8 +30,22 @@ const getPost = async (req, res) => {
       .populate({
         path: 'comments',
         model: 'Comment',
-        populate: { path: 'children',
-                    model: 'Comment' },
+        populate: { 
+          path: 'children',
+          model: 'Comment' ,
+          populate: {
+            path: 'children',
+            model: 'Comment',
+            populate: {
+              path: 'children',
+              model: 'Comment',
+              populate: {
+                path: 'children',
+                model: 'Comment',
+              }
+            }
+          }
+        },
       });
     res.json(post);
   } catch(err) {
