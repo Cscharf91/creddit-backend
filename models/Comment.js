@@ -3,17 +3,22 @@ import mongoose, { Schema } from 'mongoose';
 const CommentSchema = new mongoose.Schema({
   username: {
     type: Schema.Types.ObjectId, ref: 'User',
-    required: true,
+    required: true
+  },
+  post: {
+    type: Schema.Types.ObjectId, ref: 'Post'
   },
   parent: {
-    type: Schema.Types.ObjectId, ref: 'User',
-    default: null,
+    type: Schema.Types.ObjectId, ref: 'Comment',
+    default: null
   },
-  children: {
-    type: Schema.Types.ObjectId, ref: 'User'
-  },
+  children: [{
+    type: Schema.Types.ObjectId, ref: 'Comment',
+    default: null
+  }],
   body: {
-    type: String
+    type: String,
+    required: true
   },
   date: {
     type: Date,

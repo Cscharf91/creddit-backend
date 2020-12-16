@@ -1,11 +1,14 @@
 import Post from '../models/Post';
+import Comment from '../models/Comment';
 import { body, validationResult } from 'express-validator';
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+      .populate('user');
     res.json(posts);
   } catch(err) {
+    console.log(err);
     res.status(400).json({ msg: err });
   }
 }
@@ -22,7 +25,14 @@ const createPost = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId)
+      .populate('user')
+      .populate({
+        path: 'comments',
+        model: 'Comment',
+        populate: { path: 'children',
+                    model: 'Comment' },
+      });
     res.json(post);
   } catch(err) {
     res.status(400).json({ msg: err });
