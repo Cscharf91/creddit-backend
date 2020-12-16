@@ -5,6 +5,7 @@ import 'dotenv/config';
 import userRoutes from './routes/users';
 import postRoutes from './routes/posts';
 import commentRoutes from './routes/comments';
+import voteRoutes from './routes/votes';
 import zoneRoutes from './routes/zones';
 const app = express();
 
@@ -22,5 +23,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/zones', zoneRoutes);
+app.use('/api/votes', voteRoutes);
 
 app.listen(5000, () => console.log("Server is up and running on localhost:5000"));

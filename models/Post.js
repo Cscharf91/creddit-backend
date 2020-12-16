@@ -5,6 +5,10 @@ const PostSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId, ref: 'User',
     required: true,
   },
+  zone: {
+    type: Schema.Types.ObjectId, ref: 'Zone',
+    required: true,
+  },
   title: {
     type: String,
     required: true,

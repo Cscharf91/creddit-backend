@@ -5,7 +5,8 @@ import { body, validationResult } from 'express-validator';
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate('user');
+      .populate('user')
+      .populate('zone');
     res.json(posts);
   } catch(err) {
     console.log(err);
@@ -27,6 +28,7 @@ const getPost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId)
       .populate('user')
+      .populate('zone')
       .populate({
         path: 'comments',
         model: 'Comment',

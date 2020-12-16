@@ -15,7 +15,7 @@ const createZone = async (req, res) => {
   const newZone = new Zone({ ...req.body });
   try {
     const savedZone = await newZone.save();
-    res.json(savedComment);
+    res.json(savedZone);
   } catch(err) {
     res.status(400).json({ msg: err });
   }
@@ -23,11 +23,9 @@ const createZone = async (req, res) => {
 
 const getZonePosts = async (req, res) => {
   try {
-    const zone = await Zone.findById(req.params.zoneId)
-      .populate('creator');
     const posts = await Post.find({ zone: req.params.zoneId })
       .populate('user');
-    res.json(zone, posts);
+    res.json(posts);
   } catch(err) {
     res.status(400).json({ msg: err });
   }
