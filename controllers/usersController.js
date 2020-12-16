@@ -43,6 +43,15 @@ const login = async (req, res) => {
   res.header('auth-token', token).json({ token, user });
 }
 
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    res.json(user);
+  } catch(err) {
+    res.status(400).json({ msg: err });
+  }
+}
+
 export default {
-  register, login
+  register, login, getUser
 }
