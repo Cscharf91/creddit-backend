@@ -1,6 +1,7 @@
 import Post from '../models/Post';
 import Comment from '../models/Comment';
-import { body, validationResult } from 'express-validator';
+import cloudinary from '../utils/cloudinary';
+import upload from "../utils/multer";
 
 const getPosts = async (req, res) => {
   try {
@@ -9,16 +10,25 @@ const getPosts = async (req, res) => {
       .populate('zone');
     res.json(posts);
   } catch(err) {
-    console.log(err);
     res.status(400).json({ msg: err });
   }
 }
 
 const createPost = async (req, res) => {
-  const newPost = new Post({ ...req.body });
   try {
-    const savedPost = await newPost.save();
-    res.json(savedPost);
+    if (req.file) {
+      //Includes image
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const newPost = new Post({ ...req.body, image: result.secure_url,
+        cloudinary_id: result.public_id });
+      const savedPost = await newPost.save();
+      res.json(savedPost);
+    } else {
+      // No image upload
+      const newPost = new Post({ ...req.body });
+      const savedPost = await newPost.save();
+      res.json(savedPost);
+    } 
   } catch(err) {
     res.status(400).json({ msg: err });
   }

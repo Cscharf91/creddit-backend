@@ -7,10 +7,11 @@ import postRoutes from './routes/posts';
 import commentRoutes from './routes/comments';
 import voteRoutes from './routes/votes';
 import zoneRoutes from './routes/zones';
+import cloudinary from './utils/cloudinary';
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const atlasUri = process.env.ATLAS_URI;

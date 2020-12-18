@@ -6,7 +6,6 @@ const getZones = async (req, res) => {
     const zones = await Zone.find();
     res.json(zones);
   } catch(err) {
-    console.log(err);
     res.status(400).json({ msg: err });
   }
 }

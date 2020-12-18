@@ -7,17 +7,15 @@ const getPostVotes = async (req, res) => {
     const votes = await Vote.find({ post: req.params.postId });
     res.json(votes);
   } catch(err) {
-    console.log(err);
     res.status(400).json({ msg: err });
   }
 }
 
 const getCommentVotes = async (req, res) => {
   try {
-    const comments = await Comment.find({ post: req.params.commentId });
+    const comments = await Vote.find({ comment: req.params.commentId });
     res.json(comments);
   } catch(err) {
-    console.log(err);
     res.status(400).json({ msg: err });
   }
 }
