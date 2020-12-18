@@ -26,4 +26,4 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/zones', zoneRoutes);
 app.use('/api/votes', voteRoutes);
 
-app.listen(5000, () => console.log("Server is up and running on localhost:5000"));
+app.listen(process.env.PORT || 5000, () => console.log("Server is up and running"));
