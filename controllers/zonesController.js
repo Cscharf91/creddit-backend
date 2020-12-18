@@ -1,5 +1,6 @@
 import Zone from '../models/Zone';
 import Post from '../models/Post';
+import { body, validationResult } from 'express-validator';
 
 const getZones = async (req, res) => {
   try {
@@ -10,7 +11,20 @@ const getZones = async (req, res) => {
   }
 }
 
+const getZone = async (req, res) => {
+  try {
+    const zone = await Zone.findById(req.params.zoneId);
+    res.json(zone);
+  } catch(err) {
+    res.status(400).json({ msg: err });
+  }
+}
+
 const createZone = async (req, res) => {
+  [
+    body('name').trim().isLength({ min: 3 }).escape(),
+    body('description').isLength({ max: 100 }).escape()
+  ]
   const newZone = new Zone({ ...req.body });
   try {
     const savedZone = await newZone.save();
@@ -41,6 +55,6 @@ const deleteZone = async (req, res) => {
 }
 
 export default {
-  getZones, createZone, getZonePosts,
-  deleteZone
+  getZones, getZone, createZone, 
+  getZonePosts, deleteZone
 }

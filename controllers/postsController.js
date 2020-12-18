@@ -1,11 +1,10 @@
 import Post from '../models/Post';
-import Comment from '../models/Comment';
 import cloudinary from '../utils/cloudinary';
-import upload from "../utils/multer";
 
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
+      .sort({ 'date': -1 })
       .populate('user')
       .populate('zone');
     res.json(posts);
@@ -54,6 +53,18 @@ const getPost = async (req, res) => {
               populate: {
                 path: 'children',
                 model: 'Comment',
+                populate: {
+                  path: 'children',
+                  model: 'Comment',
+                  populate: {
+                    path: 'children',
+                    model: 'Comment',
+                    populate: {
+                      path: 'children',
+                      model: 'Comment',
+                    }
+                  }
+                }
               }
             }
           }
