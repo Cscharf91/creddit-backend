@@ -47,9 +47,9 @@ const login = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId)
-    const posts = await Post.find({ user });
-    const comments = await Post.find({ user }).populate('post');
+    const user = await User.findById(req.params.userId);
+    const posts = await Post.find({ user }).sort({ 'date': -1 });
+    const comments = await Post.find({ user }).populate('post').sort({ 'date': -1 });
     const data = { user, posts, comments };
     res.json(data);
   } catch(err) {
