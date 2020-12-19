@@ -2,6 +2,8 @@ import User from '../models/User';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import Post from '../models/Post';
+import Comment from '../models/Comment';
 
 const register = async (req, res) => {
   [
@@ -46,7 +48,10 @@ const login = async (req, res) => {
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId)
-    res.json(user);
+    const posts = await Post.find({ user });
+    const comments = await Post.find({ user }).populate('post');
+    const data = { user, posts, comments };
+    res.json(data);
   } catch(err) {
     res.status(400).json({ msg: err });
   }
