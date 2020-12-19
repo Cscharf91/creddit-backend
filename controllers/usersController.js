@@ -49,7 +49,7 @@ const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     const posts = await Post.find({ user }).sort({ 'date': -1 });
-    const comments = await Post.find({ user }).populate('post').sort({ 'date': -1 });
+    const comments = await Comment.find({ username: user }).populate('post').sort({ 'date': -1 });
     const data = { user, posts, comments };
     res.json(data);
   } catch(err) {
